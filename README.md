@@ -25,6 +25,7 @@ The `guepard-shield` build script (`build.rs`) calls `aya_build::build_ebpf` to 
 
 ## Python (ML / Data)
 
+Python workspace live in `guepard-shield-model/`
 Uses `uv` for package management. Python ≥ 3.14 required.
 
 ```bash
@@ -32,7 +33,7 @@ Uses `uv` for package management. Python ≥ 3.14 required.
 uv sync
 
 # Run any script
-uv run guepard-shield-model/scripts/<script>.py
+uv run scripts/<script>.py
 
 # Run a notebook (jupytext format)
 uv run jupyter notebook
@@ -41,7 +42,7 @@ uv run jupyter notebook
 uv run ty check
 ```
 
-Notebooks in `guepard-shield-model/` use **jupytext** format — cells are delimited by `# %%` comments, not `.ipynb` JSON.
+Notebooks in `guepard-shield-model/notebooks` use **jupytext** format — cells are delimited by `# %%` comments, not `.ipynb` JSON.
 
 ## Architecture
 
@@ -57,11 +58,11 @@ Notebooks in `guepard-shield-model/` use **jupytext** format — cells are delim
 
 ### Python ML Pipeline
 
-Located in `guepard-shield-model/`, data in `data/`:
+Located in `guepard-shield-model/`:
 
 - `data/raw/` — read-only raw datasets (LID-DS, DongTing, ADFA-LD, etc.)
 - `data/processed/` — preprocessed data output
-- `guepard-shield-model/scripts/` — data transformation, analysis, verification scripts
+- `scripts/` — data transformation, analysis, verification scripts
 
 ## Key Design Decisions
 
