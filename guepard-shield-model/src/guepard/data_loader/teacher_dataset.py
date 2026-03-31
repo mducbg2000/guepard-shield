@@ -1,20 +1,23 @@
 import random
 from functools import lru_cache
-from typing import List, Optional
+from typing import Callable, List, Optional
 
 import numpy as np
 from torch.utils.data import Dataset
 
 from ..config import WindowConfig
-from .corpus import DongTingCorpus
 from .vocab import SyscallVocab
 from .windowing import extract_window_tokens, get_window_meta, num_sliding_windows
+
+# Type alias for the token reader function (file_path_str → token list).
+TokenReader = Callable[[str], List[str]]
 
 
 @lru_cache(maxsize=8)
 def _read_tokens_from_file(file_path_str: str) -> List[str]:
-    """Module-level LRU cache shared across all dataset instances.
+    """DongTing token reader: pipe-delimited .log files.
 
+    Module-level LRU cache shared across all dataset instances.
     maxsize=8: sequence-level shuffle guarantees all windows of a sequence are
     accessed consecutively, so only O(workers) files need to be hot at once.
     """
@@ -30,11 +33,18 @@ class TeacherDataset(Dataset):
     Uses a flat index of (seq_idx, win_idx) tuples for uniform per-sequence sampling.
     max_windows_per_seq caps windows per sequence to reduce class imbalance.
     Call reshuffle() at the end of each training epoch to re-randomise sequence order.
+
+    Parameters
+    ----------
+    token_reader : callable, optional
+        ``f(file_path_str) -> List[str]`` — reads a corpus file and returns
+        the token list.  Defaults to DongTing pipe-delimited reader.
+        For LID-DS, pass ``lidds_corpus.read_sc_tokens``.
     """
 
     def __init__(
         self,
-        corpus: DongTingCorpus,
+        corpus,
         vocab: Optional[SyscallVocab],
         window_config: WindowConfig,
         split_name: str,
@@ -42,6 +52,7 @@ class TeacherDataset(Dataset):
         shuffle: bool = True,
         max_windows_per_seq: Optional[int] = None,
         seed: int = 42,
+        token_reader: Optional[TokenReader] = None,
     ):
         super().__init__()
         self.corpus = corpus
@@ -51,6 +62,7 @@ class TeacherDataset(Dataset):
         self.shuffle = shuffle
         self.max_windows_per_seq = max_windows_per_seq
         self._seed = seed
+        self._token_reader: TokenReader = token_reader or _read_tokens_from_file
 
         # Cache constants to avoid repeated dict lookups in __getitem__
         if vocab is not None:
@@ -103,12 +115,14 @@ class TeacherDataset(Dataset):
             file_path=seq_meta.file_path,
             window_idx=win_idx,
         )
-        raw_tokens = _read_tokens_from_file(str(meta.file_path))
+        raw_tokens = self._token_reader(str(meta.file_path))
         window_tokens = extract_window_tokens(raw_tokens, meta)
-        
+
         if self.vocab is None:
-            raise RuntimeError("Vocab cannot be None when calling TeacherDataset.__getitem__")
-            
+            raise RuntimeError(
+                "Vocab cannot be None when calling TeacherDataset.__getitem__"
+            )
+
         ids = [self.vocab.token2id.get(t, self.unk_id) for t in window_tokens]
         if len(ids) < self.window_size:
             ids.extend([self.pad_id] * (self.window_size - len(ids)))

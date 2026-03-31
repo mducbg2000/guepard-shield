@@ -2,7 +2,7 @@ import lightning as L
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torchmetrics import Accuracy
+from torchmetrics import Accuracy, F1Score
 
 from ..config import TeacherConfig
 
@@ -14,8 +14,10 @@ class TeacherLightningModule(L.LightningModule):
         super().__init__()
         self.model = model
         self.config = config
-        self.train_acc = Accuracy(task="multiclass", num_classes=2)
-        self.val_acc = Accuracy(task="multiclass", num_classes=2)
+
+        self.train_acc = Accuracy(task="binary")
+        self.val_acc = Accuracy(task="binary")
+        self.val_f1 = F1Score(task="binary")
 
     def forward(self, x: torch.Tensor):
         return self.model(x)
@@ -40,22 +42,36 @@ class TeacherLightningModule(L.LightningModule):
         self.train_acc(preds, hard_y)
         self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True)
         self.log(
-            "train_accuracy", self.train_acc, on_step=True, on_epoch=True, prog_bar=True
+            "train_accuracy",
+            self.train_acc,
+            on_step=False,
+            on_epoch=True,
+            prog_bar=True,
         )
         return loss
 
     def validation_step(self, batch: tuple, batch_idx: int):
         loss, preds, hard_y = self._shared_step(batch)
         self.val_acc(preds, hard_y)
+        self.val_f1(preds, hard_y)
         self.log("val_loss", loss, on_step=False, on_epoch=True, prog_bar=True)
         self.log(
-            "val_accuracy", self.val_acc, on_step=False, on_epoch=True, prog_bar=True
+            "val_accuracy",
+            self.val_acc,
+            on_step=False,
+            on_epoch=True,
+            prog_bar=True,
         )
+        self.log("val_f1", self.val_f1, on_step=False, on_epoch=True, prog_bar=True)
         return loss
 
     def configure_optimizers(self):
-        return torch.optim.AdamW(
+        optimizer = torch.optim.AdamW(
             self.parameters(),
             lr=self.config.lr,
             weight_decay=self.config.weight_decay,
         )
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
+            optimizer, T_max=(self.trainer.max_epochs or 1), eta_min=1e-6
+        )
+        return {"optimizer": optimizer, "lr_scheduler": scheduler}
