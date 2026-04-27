@@ -1,6 +1,6 @@
 # Project Walkthrough & Progress Report
 
-This document tracks the actual implementation progress of the RuleDistill project. It serves as a technical bridge between sessions.
+This document tracks the actual implementation progress of the Guepard Shield project. It serves as a technical bridge between sessions.
 
 ---
 

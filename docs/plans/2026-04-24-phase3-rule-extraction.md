@@ -51,12 +51,12 @@ MIN_RULE_SUPPORT = 50  # minimum windows a rule must cover
 - Create: `guepard-shield-model/gp/rules/decision_set.py`
 - Create: `guepard-shield-model/gp/rules/mitre_mapper.py`
 - Create: `guepard-shield-model/gp/rules/rust_codegen.py`
-- Create: `notebooks/p3/01_generate_pseudo_labels.py`
-- Create: `notebooks/p3/02_extract_features.py`
-- Create: `notebooks/p3/03_learn_rules.py`
-- Create: `notebooks/p3/04_evaluate_rules.py`
-- Create: `notebooks/p3/05_export_rust_config.py`
-- Create: `notebooks/p3/06_map_mitre.py`
+- Create: `scripts/p3/01_generate_pseudo_labels.py`
+- Create: `scripts/p3/02_extract_features.py`
+- Create: `scripts/p3/03_learn_rules.py`
+- Create: `scripts/p3/04_evaluate_rules.py`
+- Create: `scripts/p3/05_export_rust_config.py`
+- Create: `scripts/p3/06_map_mitre.py`
 - Create directory: `results/p3_rule_extraction/`
 
 **Step 1: Create module init**
@@ -89,7 +89,7 @@ mkdir -p results/p3_rule_extraction/rules results/p3_rule_extraction/ebpf
 **Step 3: Commit**
 
 ```bash
-git add guepard-shield-model/gp/rules/ notebooks/p3/
+git add guepard-shield-model/gp/rules/ scripts/p3/
 git commit -m "feat(p3): bootstrap rule extraction module structure"
 ```
 
@@ -100,12 +100,12 @@ git commit -m "feat(p3): bootstrap rule extraction module structure"
 **Goal:** Create a clean training set with recording-level pseudo-labels (Attack/Normal/Discard).
 
 **Files:**
-- Modify: `notebooks/p3/01_generate_pseudo_labels.py`
+- Modify: `scripts/p3/01_generate_pseudo_labels.py`
 
 **Step 1: Implement pseudo-label generator**
 
 ```python
-# notebooks/p3/01_generate_pseudo_labels.py
+# scripts/p3/01_generate_pseudo_labels.py
 # %%
 import pandas as pd
 import numpy as np
@@ -157,7 +157,7 @@ print(f"\nSaved pseudo-labels to: {output_csv}")
 
 Run:
 ```bash
-cd /home/ducnm/Code/hust/guepard-shield && uv run python notebooks/p3/01_generate_pseudo_labels.py
+cd /home/ducnm/Code/hust/guepard-shield && uv run python scripts/p3/01_generate_pseudo_labels.py
 ```
 
 **Expected output:**
@@ -180,7 +180,7 @@ ls results/p3_rule_extraction/pseudo_labels.csv
 **Step 4: Commit**
 
 ```bash
-git add notebooks/p3/01_generate_pseudo_labels.py results/p3_rule_extraction/pseudo_labels.csv
+git add scripts/p3/01_generate_pseudo_labels.py results/p3_rule_extraction/pseudo_labels.csv
 git commit -m "feat(p3): generate teacher pseudo-labels (attack/normal/discard)"
 ```
 
@@ -629,12 +629,12 @@ git commit -m "feat(p3): add GreedyDecisionSet learner with precision-maximizing
 **Goal:** Load test windows, filter by pseudo-labels, extract features.
 
 **Files:**
-- Create: `notebooks/p3/02_extract_features.py`
+- Create: `scripts/p3/02_extract_features.py`
 
 **Step 1: Implement feature extraction pipeline**
 
 ```python
-# notebooks/p3/02_extract_features.py
+# scripts/p3/02_extract_features.py
 # %%
 import numpy as np
 import pandas as pd
@@ -775,7 +775,7 @@ print(f"Saved features to: {OUTPUT_DIR / 'window_features.npz'}")
 
 Run:
 ```bash
-uv run python notebooks/p3/02_extract_features.py
+uv run python scripts/p3/02_extract_features.py
 ```
 
 **Expected output:**
@@ -790,7 +790,7 @@ Saved features to: results/p3_rule_extraction/window_features.npz
 **Step 3: Commit**
 
 ```bash
-git add notebooks/p3/02_extract_features.py
+git add scripts/p3/02_extract_features.py
 git commit -m "feat(p3): extract eBPF-friendly features from scored test windows"
 ```
 
@@ -801,12 +801,12 @@ git commit -m "feat(p3): extract eBPF-friendly features from scored test windows
 **Goal:** Train GreedyDecisionSet on pseudo-labeled data.
 
 **Files:**
-- Create: `notebooks/p3/03_learn_rules.py`
+- Create: `scripts/p3/03_learn_rules.py`
 
 **Step 1: Implement rule learning pipeline**
 
 ```python
-# notebooks/p3/03_learn_rules.py
+# scripts/p3/03_learn_rules.py
 # %%
 import numpy as np
 import pandas as pd
@@ -971,7 +971,7 @@ print(f"Saved human-readable rules to: {OUTPUT_DIR / 'rules_human_readable.txt'}
 
 Run:
 ```bash
-uv run python notebooks/p3/03_learn_rules.py
+uv run python scripts/p3/03_learn_rules.py
 ```
 
 **Expected output:**
@@ -986,7 +986,7 @@ Learned 15 rules covering .../... positives
 **Step 3: Commit**
 
 ```bash
-git add notebooks/p3/03_learn_rules.py results/p3_rule_extraction/rules/
+git add scripts/p3/03_learn_rules.py results/p3_rule_extraction/rules/
 git commit -m "feat(p3): train greedy decision set on pseudo-labeled windows"
 ```
 
@@ -997,12 +997,12 @@ git commit -m "feat(p3): train greedy decision set on pseudo-labeled windows"
 **Goal:** Evaluate the learned rules against Teacher pseudo-labels and ground truth window labels.
 
 **Files:**
-- Create: `notebooks/p3/04_evaluate_rules.py`
+- Create: `scripts/p3/04_evaluate_rules.py`
 
 **Step 1: Implement evaluation pipeline**
 
 ```python
-# notebooks/p3/04_evaluate_rules.py
+# scripts/p3/04_evaluate_rules.py
 # %%
 import numpy as np
 import pandas as pd
@@ -1145,13 +1145,13 @@ for i, rule in enumerate(ds.rules, 1):
 
 Run:
 ```bash
-uv run python notebooks/p3/04_evaluate_rules.py
+uv run python scripts/p3/04_evaluate_rules.py
 ```
 
 **Step 3: Commit**
 
 ```bash
-git add notebooks/p3/04_evaluate_rules.py results/p3_rule_extraction/rule_evaluation.json
+git add scripts/p3/04_evaluate_rules.py results/p3_rule_extraction/rule_evaluation.json
 git commit -m "feat(p3): evaluate decision set rules for fidelity and FPR"
 ```
 
@@ -1165,7 +1165,7 @@ git commit -m "feat(p3): evaluate decision set rules for fidelity and FPR"
 
 **Files:**
 - Create: `guepard-shield-model/gp/rules/rust_codegen.py`
-- Create: `notebooks/p3/05_export_rust_config.py`
+- Create: `scripts/p3/05_export_rust_config.py`
 
 **Step 1: Implement Rust config exporter**
 
@@ -1239,7 +1239,7 @@ class RustConfigExporter:
 **Step 2: Implement export notebook**
 
 ```python
-# notebooks/p3/05_export_rust_config.py
+# scripts/p3/05_export_rust_config.py
 # %%
 from pathlib import Path
 import json
@@ -1289,7 +1289,7 @@ print("  cargo xtask run --rule-config results/p3_rule_extraction/rust/rule_conf
 
 Run:
 ```bash
-uv run python notebooks/p3/05_export_rust_config.py
+uv run python scripts/p3/05_export_rust_config.py
 ```
 
 **Expected output:**
@@ -1302,7 +1302,7 @@ Exported Rust config: results/p3_rule_extraction/rust/rule_config.json
 **Step 4: Commit**
 
 ```bash
-git add guepard-shield-model/gp/rules/rust_codegen.py notebooks/p3/05_export_rust_config.py results/p3_rule_extraction/rust/
+git add guepard-shield-model/gp/rules/rust_codegen.py scripts/p3/05_export_rust_config.py results/p3_rule_extraction/rust/
 git commit -m "feat(p3): export rules to Rust/Aya JSON config for P4 ingestion"
 ```
 
@@ -1344,7 +1344,7 @@ guepard-shield-common/src/lib.rs     # Shared structs (syscall counts, rule conf
 
 **Files:**
 - Create: `guepard-shield-model/gp/rules/mitre_mapper.py`
-- Create: `notebooks/p3/06_map_mitre.py`
+- Create: `scripts/p3/06_map_mitre.py`
 
 **Step 1: Implement MITRE mapper**
 
@@ -1484,7 +1484,7 @@ class LIDDS2021MITREMapper:
 **Step 2: Implement mapping notebook**
 
 ```python
-# notebooks/p3/06_map_mitre.py
+# scripts/p3/06_map_mitre.py
 # %%
 import numpy as np
 import pandas as pd
@@ -1566,13 +1566,13 @@ print(f"\nSaved MITRE mapping to: {OUTPUT_DIR / 'mitre_mapping.json'}")
 
 Run:
 ```bash
-uv run python notebooks/p3/06_map_mitre.py
+uv run python scripts/p3/06_map_mitre.py
 ```
 
 **Step 4: Commit**
 
 ```bash
-git add guepard-shield-model/gp/rules/mitre_mapper.py notebooks/p3/06_map_mitre.py results/p3_rule_extraction/mitre_mapping.json
+git add guepard-shield-model/gp/rules/mitre_mapper.py scripts/p3/06_map_mitre.py results/p3_rule_extraction/mitre_mapping.json
 git commit -m "feat(p3): map extracted rules to MITRE ATT&CK techniques"
 ```
 

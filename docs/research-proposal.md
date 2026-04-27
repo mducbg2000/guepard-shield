@@ -1,4 +1,4 @@
-# RuleDistill — Syscall Attack Detection → Human-Readable Security Rules
+# Guepard Shield: A novel data breach detection mechanism using kernel-level information
 
 ---
 

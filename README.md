@@ -1,6 +1,6 @@
-# RuleDistill: Neural Syscall Detection to eBPF Enforcement
+# Guepard Shield: A novel data breach detection mechanism using kernel-level information
 
-**RuleDistill** is a research framework for Host-based Intrusion Detection (HIDS) that bridges the gap between deep learning accuracy and kernel-level performance.
+**Guepard Shield** is a research framework for Host-based Intrusion Detection (HIDS) that bridges the gap between deep learning accuracy and kernel-level performance.
 
 ## 🎯 Project Objective
 The goal is to train a high-accuracy Transformer model on system call sequences (Teacher), then distill its complex decision-making logic into simple, human-readable rules (Student) that can be enforced in real-time using eBPF.

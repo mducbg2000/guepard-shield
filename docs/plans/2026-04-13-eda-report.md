@@ -1,7 +1,7 @@
 # EDA Report — Syscall HIDS Datasets
 
 **Generated:** 2026-04-13  
-**Project:** RuleDistill — Neural Syscall Detection → eBPF Rules  
+**Project:** Guepard Shield: A novel data breach detection mechanism using kernel-level information  
 **Datasets:** LID-DS-2021 (primary), LID-DS-2019 (cross-domain), DongTing (cross-domain)
 
 ---
