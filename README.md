@@ -49,5 +49,10 @@ cargo build --release
 ```
 
 ## 📜 Progress & Documentation
-For implementation details, Phase 2 status, and technical decisions, see:
+- **Phase 1 (EDA):** ✅ Completed.
+- **Phase 2 (Teacher):** ✅ Completed (Transformer model trained).
+- **Phase 3 (Student):** ⏳ **Redesigning** (Implementing Adaptive 3-Zone Rules).
+- **Phase 4 (Deployment):** ⏳ Planned.
+
+For technical details and current tasks, see:
 👉 **[docs/WALKTHROUGH.md](docs/WALKTHROUGH.md)**

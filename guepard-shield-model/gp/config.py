@@ -68,7 +68,7 @@ threshold: float = 0.5
 # ── Output Paths ─────────────────────────────────────────────────────
 ar_dir: Path = PROCESSED_DATA_DIR / "lidds2021_ar"
 npy_dir: Path = PROCESSED_DATA_DIR / "lidds2021"
-vocab_path: Path = RESULTS_DIR / "vocab_transformer.json"
+vocab_path: Path = RESULTS_DIR / "eda_cross_dataset" / "vocab_lidds2021_train.txt"
 ckpt_path: Path = RESULTS_DIR / "checkpoints" / "transformer" / "best"
 metrics_path: Path = RESULTS_DIR / "p2_transformer_metrics.json"
 history_plot_path: Path = RESULTS_DIR / "p2_train_history.png"
