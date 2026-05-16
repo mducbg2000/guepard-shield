@@ -2,16 +2,13 @@
 
 ## 6.1 Summary
 
-*(To be written after experiments.)*
+*(Placeholder chapter. No conclusions should be drawn yet from Phase 2 / Phase 3 because those stages are not implemented in the current repository state.)*
 
-This thesis addresses the enforcement gap in syscall-based HIDS: trained neural models achieve high detection accuracy but cannot run in the kernel. Guepard Shield closes this gap by:
+At present, the defensible summary of the repository is narrower:
 
-1. Training a decoder-only Transformer on normal syscall sequences using next-token prediction.
-2. Extracting a DFA from the Transformer's final-layer hidden states via K-Means clustering and transition construction.
-3. Resolving non-determinism in the extracted automaton, with Statistical Pruning (S4) as the primary strategy, justified by the skewed distribution of syscall transition frequencies.
-4. Deploying the DFA as an O(1) eBPF BPF-map lookup, enforcing a per-thread whitelist on the continuous syscall stream with no concept of "recording" at runtime.
-
-The system provides structural mimicry attack resilience: padding attacks that stretch exploit sequences cause DFA pointer drift into edge states from which recovery is not possible.
+1. Phase 1 EDA and preprocessing have been completed.
+2. The later Transformer, DFA extraction, and kernel-enforcement stages remain proposed work.
+3. Any future conclusion about fidelity, runtime overhead, or mimicry resilience must wait for a fresh implementation and evaluation cycle.
 
 ## 6.2 Limitations
 

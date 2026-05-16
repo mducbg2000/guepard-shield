@@ -45,13 +45,15 @@ Syscall stream (per thread)
 
 **Why DFA, not model inference:** A DFA transition is an O(1) BPF map lookup. Transformer inference on a window is O(W·d²) — infeasible at kernel speed. The DFA encodes the model's learned decision boundary in a form the kernel can execute.
 
-## 1.4 Contributions
+## 1.4 Planned Contributions
 
 1. **End-to-end pipeline:** Syscall HIDS from neural anomaly detection → DFA extraction → eBPF kernel enforcement, with latency measurement on real workloads.
 2. **DFA extraction from Transformer hidden states:** Formalization of the continuous-to-discrete mapping (K-Means on final-layer embeddings), including a study of non-determinism resolution strategies (S1–S4).
 3. **Mimicry attack resilience via DFA structure:** Formal argument that padding-based mimicry attacks cause DFA pointer drift into edge states, from which recovery is not possible regardless of padding length.
 4. **Evaluation on LID-DS and DongTing:** Window-level AUROC/F1 for the Teacher; fidelity and FPR for the DFA Student; enforcement latency on nginx, redis, postgres workloads.
 5. **MITRE ATT&CK coverage analysis:** Mapping of DFA rejecting-state patterns to known attack techniques.
+
+These are thesis targets, not completed outputs in the current repository state.
 
 ## 1.5 Organization of Thesis
 

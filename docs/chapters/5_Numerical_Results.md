@@ -1,5 +1,7 @@
 # Chapter 5 — Numerical Results
 
+This chapter is currently a **planned evaluation template** for the new Phase 2 / Phase 3 architecture. No maintained Phase 2 or Phase 3 experiment results exist in the current codebase.
+
 ## 5.1 Evaluation Parameters
 
 | Parameter | Description | Candidate Values |
@@ -62,15 +64,15 @@ Workloads: nginx, redis, postgres running on a Linux VM.
 
 ## 5.5 Phase 2 Results
 
-*(To be filled after experiments.)*
+*(No current results. To be filled after a new Phase 2 implementation exists.)*
 
 ## 5.6 Phase 3 Results — Non-determinism Strategy Comparison
 
-*(To be filled. Expected: S4 with θ=0.99 achieves lowest FPR with minimal fidelity loss due to skewed syscall distributions.)*
+*(No current results. To be filled after a new Phase 3 implementation exists.)*
 
 ## 5.7 Phase 3 Results — K Sensitivity
 
-*(To be filled. Expected: K=200–500 provides best fidelity–compactness trade-off for LID-DS-2021.)*
+*(No current results. To be filled after a new Phase 3 implementation exists.)*
 
 ## 5.8 Phase 4 Results — Runtime Latency
 

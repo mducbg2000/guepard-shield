@@ -1,5 +1,7 @@
 # Chapter 3 — Methodology
 
+This chapter describes the **proposed methodology** for the next iteration of the project. In the current repository state, only Phase 1 EDA and preprocessing are implemented; the later Phase 2 / Phase 3 / Phase 4 sections below are design targets, not completed code paths.
+
 ## 3.1 Overview
 
 Guepard Shield is a four-phase pipeline that converts raw syscall recordings into a kernel-enforced DFA:

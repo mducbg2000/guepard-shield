@@ -1,5 +1,7 @@
 # Chapter 4 — Theoretical Analysis
 
+This chapter analyzes the expected properties of the proposed Phase 2 / Phase 3 / Phase 4 architecture. These arguments are theoretical scaffolding for future work, not validation of an already implemented pipeline in the current codebase.
+
 ## 4.1 Computational Complexity
 
 ### 4.1.1 Transformer Inference (Offline)

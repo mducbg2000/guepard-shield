@@ -18,18 +18,18 @@ This document tracks the actual implementation progress of the Guepard Shield pr
 
 ---
 
-## ⏳ Phase 2: Teacher Model — Planned
+## ⏳ Phase 2: Teacher Model — Not Implemented In Current Tree
 
-Source code removed. To be reimplemented.
+The repository currently does **not** contain a maintained Transformer training pipeline. Any earlier experiments should be considered deprecated. Current docs under `docs/chapters/` describe the **new intended architecture**, not an implemented Phase 2 baseline.
 
 ---
 
-## ⏳ Phase 3: Rule Distillation — Planned
+## ⏳ Phase 3: Rule Distillation — Not Implemented In Current Tree
 
-Source code removed. Depends on Phase 2 completion.
+No maintained rule-distillation or DFA-extraction code is present in this checkout. The thesis chapters describe the current design direction only.
 
 ---
 
 ## ⏳ Phase 4: Deployment — Planned
 
-eBPF enforcement. Depends on Phase 3 completion.
+The Rust / Aya code in this repo is still a scaffold. It is not yet connected to a trained Phase 2 model or a distilled Phase 3 artifact.

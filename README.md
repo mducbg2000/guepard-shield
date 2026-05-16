@@ -3,21 +3,21 @@
 **Guepard Shield** is a research framework for Host-based Intrusion Detection (HIDS) that bridges the gap between deep learning accuracy and kernel-level performance.
 
 ## 🎯 Project Objective
-The goal is to train a high-accuracy Transformer model on system call sequences (Teacher), then distill its complex decision-making logic into simple, human-readable rules (Student) that can be enforced in real-time using eBPF.
+The long-term research goal is to study how syscall-based anomaly detection can move from offline machine-learning experiments to lightweight kernel-side enforcement with eBPF. In this checkout, the implemented and reproducible part of the project is **Phase 1: EDA and data preprocessing**. The later Transformer / rule-distillation stages are currently documented as a **new target architecture**, not as runnable code in the repository.
 
 ## 🏗 Unified Monorepo Structure
 
 This project is organized as a unified workspace for both Python (ML) and Rust (eBPF).
 
 - **`guepard-shield-model/`**: The core Python logic.
-  - `gp/`: The main package (importable as `import gp`). Contains models and data loaders.
+  - `gp/`: The main package (importable as `import gp`). Contains dataset loaders, diagnostics, and shared project paths.
   - `pyproject.toml`: Minimalist project file to register the `gp` package.
-- **`guepard-shield-ebpf/`**: Rust implementation of the kernel-side detection logic.
-- **`guepard-shield/`**: Rust implementation of the userspace agent (using Aya).
+- **`guepard-shield-ebpf/`**: Rust eBPF scaffold for future kernel-side experiments.
+- **`guepard-shield/`**: Rust userspace scaffold (using Aya).
 - **`guepard-shield-common/`**: Shared Rust structures between user and kernel space.
 - **`data/`**: Consolidated syscall datasets (LID-DS, DongTing).
-- **`results/`**: Shared training artifacts, checkpoints, and evaluation metrics.
-- **`notebooks/`**: Phase-specific experimental scripts (Jupytext format).
+- **`results/`**: Generated EDA artifacts and summaries.
+- **`notebooks/`**: Phase-specific research scripts. At the moment, only `notebooks/p1/` is part of the maintained workflow.
 - **`docs/`**: Project documentation and thesis materials.
 
 ## 🛠 Setup & Development
@@ -35,11 +35,14 @@ uv sync
 ### 2. Running ML Pipeline
 No `PYTHONPATH` or `cd` required. Just run from root:
 ```bash
-# Train the model
-uv run python notebooks/p2/train_transformer.py
+# Run EDA on LID-DS-2021
+uv run python notebooks/p1/eda_lidds2021.py
 
-# Evaluate on Test set
-uv run python notebooks/p2/evaluate_transformer.py
+# Run EDA on LID-DS-2019
+uv run python notebooks/p1/eda_lidds2019.py
+
+# Run EDA on DongTing
+uv run python notebooks/p1/eda_dongtingds.py
 ```
 
 ### 3. Rust/eBPF Build
@@ -50,8 +53,8 @@ cargo build --release
 
 ## 📜 Progress & Documentation
 - **Phase 1 (EDA):** ✅ Completed.
-- **Phase 2 (Teacher):** ⏳ Planned (source removed, to be reimplemented).
-- **Phase 3 (Student):** ⏳ Planned (depends on Phase 2).
+- **Phase 2 (Teacher):** ⏳ Not implemented in the current codebase. The docs describe a new intended architecture only.
+- **Phase 3 (Student):** ⏳ Not implemented in the current codebase. The docs describe a new intended architecture only.
 - **Phase 4 (Deployment):** ⏳ Planned.
 
 For technical details and current tasks, see:

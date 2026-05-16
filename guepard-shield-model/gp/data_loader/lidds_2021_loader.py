@@ -1,4 +1,4 @@
-"""LID-DS-2021 loader with windowed dataset for Transformer training."""
+"""LID-DS-2021 loader and windowing helpers for preprocessing workflows."""
 
 from __future__ import annotations
 

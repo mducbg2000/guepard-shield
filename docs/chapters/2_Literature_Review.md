@@ -1,5 +1,7 @@
 # Chapter 2 — Literature Review
 
+This chapter reviews the research background that motivates the **next** architecture of Guepard Shield. It should be read as literature support and problem framing, not as evidence that Phase 2 or Phase 3 has already been implemented in the current repository.
+
 ## 2.1 Scope of Research
 
 This thesis focuses on **syscall-level anomaly detection** for Linux hosts running server workloads. The scope is bounded by:
