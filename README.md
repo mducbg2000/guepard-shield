@@ -50,8 +50,8 @@ cargo build --release
 
 ## 📜 Progress & Documentation
 - **Phase 1 (EDA):** ✅ Completed.
-- **Phase 2 (Teacher):** ✅ Completed (Transformer model trained).
-- **Phase 3 (Student):** ⏳ **Redesigning** (Implementing Adaptive 3-Zone Rules).
+- **Phase 2 (Teacher):** ⏳ Planned (source removed, to be reimplemented).
+- **Phase 3 (Student):** ⏳ Planned (depends on Phase 2).
 - **Phase 4 (Deployment):** ⏳ Planned.
 
 For technical details and current tasks, see:
